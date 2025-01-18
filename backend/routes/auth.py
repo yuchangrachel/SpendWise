@@ -1,14 +1,10 @@
-import os
 from flask import Blueprint, request, jsonify, session
-from flask_bcrypt import Bcrypt
-from flask_cors import CORS
-from models import db
+from app import bcrypt
+from extensions import db
 from models.users import User
  
 auth_bp = Blueprint("auth_bp", __name__)
   
-bcrypt = Bcrypt() 
-
 
 @auth_bp.route("/")
 def hello_world():
