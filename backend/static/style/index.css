@@ -1,0 +1,131 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    color: #444;
+}
+
+header {
+    background-color: #2c3e50;
+    padding: 15px 0;
+    color: #ecf0f1;
+}
+
+header nav {
+    display: flex;
+    justify-content: right;
+    gap: 25px;
+}
+
+header nav a {
+    color: #ecf0f1; 
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+header nav a:hover {
+    background-color: #34495e;
+    transform: scale(1.05); 
+}
+
+header nav a.active {
+    background-color: #e74c3c;
+}
+
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Flash message styles */
+.alert {
+    padding: 15px;
+    margin-left: 0;
+    width: auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.flash-messages {
+    text-align: left; 
+    margin-top: 10px;
+    margin-left: -40px;
+    width: 100%;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #f44336; 
+    list-style-type: none;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 5px solid #4caf50;
+    list-style-type: none;
+}
+
+/* Form container styling */
+form {
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%;
+    max-width: 400px; /* Max width for the form */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Input fields styling */
+input[type="text"], input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding does not affect width */
+    transition: border-color 0.3s ease; 
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #d9e1eac9; /* Blue border when focused */
+    outline: none;
+}
+
+/* Button styling */
+button[type="submit"] {
+    padding: 12px;
+    background-color: #d2d7dc; 
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #586069;
+}

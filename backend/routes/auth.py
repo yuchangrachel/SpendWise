@@ -1,56 +1,56 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for, flash
+from flask_login import login_required, login_user, logout_user
 from app import bcrypt
 from extensions import db
 from models.users import User
  
-auth_bp = Blueprint("auth_bp", __name__)
-  
+auth_bp = Blueprint("auth", __name__)
 
-@auth_bp.route("/")
-def hello_world():
-    return "Hello, World!!"
- 
-@auth_bp.route("/signup", methods=["POST"])
-def signup():
-    if not request.is_json:
-        return jsonify({"error": "Request must be JSON"}), 400
-    
-    email = request.json["email"]
-    password = request.json["password"]
- 
-    user_exists = User.query.filter_by(email=email).first() is not None
- 
-    if user_exists:
-        return jsonify({"error": "Email already exists"}), 409
-     
-    hashed_password = bcrypt.generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
- 
-    session["user_id"] = new_user.id
- 
-    return jsonify({
-        "id": new_user.id,
-        "email": new_user.email
-    })
- 
-@auth_bp.route("/login", methods=["POST"])
-def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
-  
-    user = User.query.filter_by(email=email).first()
-  
-    if user is None:
-        return jsonify({"error": "Unauthorized Access"}), 401
-  
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
-      
-    session["user_id"] = user.id
-  
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    })
+# Flask use function name as endpoint name
+@auth_bp.route("/home", methods=["GET"], endpoint="home")
+@login_required
+def dashboard():
+    return render_template("home.html")
+
+
+@auth_bp.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+
+        if User.query.filter_by(email=email).first():
+            flash("Email already exists", "danger")
+        else:
+            new_user = User(email=email, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Registration successful! Please log in.", "success")
+            return redirect(url_for("auth.login"))
+
+    return render_template("register.html")
+
+
+@auth_bp.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        user = User.query.filter_by(email=email).first()
+
+        if user and bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for("auth.home"))
+        else:
+            flash("Invalid email or password", "danger")
+
+    return render_template("login.html")
+
+
+# Logout route
+@auth_bp.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("auth.login"))

@@ -24,7 +24,7 @@ To start the Flask application, use the following command:
 flask run
 ```
 
-## Database migration
+## Update Database in development stage
 #### To upgrade the existing database 
 (e.g., adding a new column to a table without losing existing data), follow these steps:
 ```

@@ -1,0 +1,14 @@
+{% extends "navbar.html" %}
+
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+    <div class="logout-container">
+        <h1>Logout</h1>
+        <p>Are you sure you want to log out?</p>
+        <form method="POST">
+            <button type="submit" class="logout-btn">Yes, Log me out</button>
+        </form>
+        <a href="{{ url_for('home') }}" class="cancel-btn">Cancel</a>
+    </div>
+{% endblock %}
