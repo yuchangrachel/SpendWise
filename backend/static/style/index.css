@@ -34,7 +34,7 @@ header nav a:hover {
 }
 
 header nav a.active {
-    background-color: #e74c3c;
+    background-color: #89a7db;
 }
 
 main {
@@ -116,7 +116,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 /* Button styling */
-button[type="submit"] {
+input[type="submit"] {
     padding: 12px;
     background-color: #d2d7dc; 
     border: none;
@@ -126,6 +126,6 @@ button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+input[type="submit"]:hover {
     background-color: #586069;
 }
