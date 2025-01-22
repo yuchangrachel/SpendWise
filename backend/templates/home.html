@@ -1,7 +1,12 @@
 {% extends "navbar.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<body>
 <h1>Welcome, {{ current_user.email }}!</h1>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<!-- Bootstrap Icons CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 <link rel="stylesheet" href="{{ url_for('static', filename='style/index.css') }}">
 
 <h2>Expense Records</h2>
@@ -9,7 +14,14 @@
 <table class="block">
     <thead>
         <tr>
-            <th href="{{ url_for('home', sort_by='date', sort_order='desc' if sort_order == 'desc' else 'asc')}}">Date</th>
+            <th class="sortable {{ 'asc' if sort_by == 'date' and sort_order == 'asc' else 'desc' if sort_by == 'date' else '' }}"  
+                data-sort-by="date" 
+                href="{{ url_for('home', sort_by='date', sort_order='desc' if sort_order == 'desc' else 'asc')}}">Date
+                <!-- Show the sort-up icon if the current order is ascending -->
+                <i class="bi bi-sort-up-alt" style="display: {{ 'none' if sort_order == 'desc' else 'inline' }}"></i>
+                <!-- Show the sort-down icon if the current order is descending -->
+                <i class="bi bi-sort-down" style="display: {{ 'none' if sort_order == 'asc' else 'inline' }}"></i>
+            </th>
             <th>Title</th>
             <th>Category</th>
             <th>Expense ($)</th>
@@ -41,5 +53,7 @@
         {% endif %}
     {% endfor %}
 </div>
-
+<script type="text/javascript" src="static/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 {% endblock %}

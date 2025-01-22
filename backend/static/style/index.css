@@ -176,6 +176,13 @@ th:nth-child(2), td:nth-child(2) {
 th:nth-child(3), td:nth-child(3) {
     width: 25%;
 }
+
+.sortable {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
 /* Button styling */
 a.button.btn-primary {
     color: #507090;
