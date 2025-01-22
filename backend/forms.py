@@ -58,5 +58,4 @@ class ExpenseForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=3, max=100)])
     expense = FloatField('Expense ($)', validators=[DataRequired(), NumberRange(min=0)])
 
-    class Meta:
-        csrf = False
+    submit = SubmitField('Create Expense Record')

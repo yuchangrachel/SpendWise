@@ -28,6 +28,6 @@ def create_expense():
         db.session.commit()
         
         flash("Expense record created successfully!", "success")
-        return redirect(url_for("expense.home"))
+        return redirect(url_for("home"))
 
     return render_template("create_expense_record.html", form=form)

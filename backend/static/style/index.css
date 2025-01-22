@@ -7,6 +7,10 @@ body {
     color: #444;
 }
 
+div {
+    margin-bottom: 20px;
+}
+
 .block {
     margin-bottom: 20px;
     margin-top: 20px;
@@ -86,38 +90,40 @@ main {
 
 /* Form container styling */
 form {
-    background-color: #ffffff; /* White background */
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; /* Max width for the form */
+    max-width: 600px;
     display: flex;
     flex-direction: column;
 }
 
 /* Label styling */
 label {
-    font-size: 16px;
+    display: block;
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     color: #333;
+    font-weight: bold;
 }
 
 /* Input fields styling */
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], select, input[type="date"] {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 20px;
     width: 100%;
     box-sizing: border-box; /* Ensure padding does not affect width */
     transition: border-color 0.3s ease; 
 }
 
-input[type="text"]:focus, input[type="password"]:focus {
-    border-color: #d9e1eac9; /* Blue border when focused */
+input[type="text"]:focus, input[type="password"]:focus, select:focus{
+    border-color: #d9e1eac9; 
     outline: none;
 }
 
@@ -142,7 +148,7 @@ table, th, td {
     width: 70%;
     border: 1px solid white;
     border-collapse: collapse;
-    
+    font-size: 20px;
 }
 
 th {
