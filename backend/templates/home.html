@@ -1,9 +1,11 @@
 {% extends "navbar.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1>Welcome, {{ current_user.username }}!</h1>
-<p>This is your home page.</p>
+<h1>Welcome, {{ current_user.email }}!</h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='style/index.css') }}">
 
+<h2>Expense Records</h2>
+<a href="{{ url_for('expense.create_expense') }}">Create New Expense Record</a>
 <table>
     <thead>
         <tr>
