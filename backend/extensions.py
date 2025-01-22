@@ -9,4 +9,4 @@ from flask_caching import Cache
 bcrypt = Bcrypt() 
 db = SQLAlchemy()
 migrate = Migrate()
-cache = Cache()
+# cache = Cache()

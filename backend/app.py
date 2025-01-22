@@ -1,10 +1,10 @@
 """
 Backend main entry
 """
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_login import LoginManager, login_required, current_user
 from flask_cors import CORS
-from extensions import bcrypt, db, migrate, cache
+from extensions import bcrypt, db, migrate
 from routes.auth import auth_bp
 from routes.expense import expense_bp
 from models.users import User
@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config.from_object("config.Config")
 
 # initialize extensions & configs
-cache.init_app(app)
+# cache.init_app(app)
 bcrypt.init_app(app)
 db.init_app(app)
 migrate.init_app(app, db)
@@ -39,10 +39,14 @@ app.register_blueprint(expense_bp)
 # home route
 @app.route("/")
 @login_required
-@cache.cached(timeout=60, key_prefix="home_cache")
+# @cache.cached(timeout=60, key_prefix="user_data_{}.format(current_user.id)")
 def home():
+    # get page number(default 1) from query string
+    page = request.args.get('page', 1, type=int)
+    # set number of expenses per page
+    per_page = 3 
     # fetch expenses for the currently logged-in user
-    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+    expenses = Expense.query.filter_by(user_id=current_user.id).paginate(page=page, per_page=per_page, error_out=False)
 
     return render_template("home.html", expenses=expenses)
 

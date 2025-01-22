@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, Blueprint
 from flask_login import login_required, current_user
 from models.expense import Expense
 from forms import ExpenseForm
-from extensions import db, cache
+from extensions import db
 
 
 expense_bp = Blueprint('expense', __name__, url_prefix='/expense')
@@ -27,9 +27,6 @@ def create_expense():
         db.session.add(new_expense)
         db.session.commit()
 
-        # # trigger update db instead of wait cache timeout
-        # cache.delete_memoized("home_cache")
-        
         flash("Expense record created successfully!", "success")
         return redirect(url_for("home"))
 

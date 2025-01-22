@@ -59,6 +59,7 @@ def login():
 @auth_bp.route("/logout")
 @login_required
 def logout():
+    # cache.delete("user_data_{}".format(current_user.id))
     logout_user()
     flash("Logged out successfully", "success")
     return redirect(url_for("auth.login"))
