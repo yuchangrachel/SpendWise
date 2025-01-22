@@ -7,16 +7,18 @@ from extensions import db
 
 expense_bp = Blueprint('expense', __name__, url_prefix='/expense')
 
-# Home route
-@expense_bp.route("/", methods=["GET"])
-@login_required
-def home():
-    # Query the Expense model for the current user's expenses
-    expenses = Expense.query.filter_by(user_id=current_user.id).all()
-    
-    # Render home.html with the fetched expenses
-    return render_template("home.html", expenses=expenses)
 
+# @expense_bp.route("/", methods=["GET"])
+# @login_required
+# def home():
+#     expenses = Expense.query.filter_by(user_id=current_user.id).all()
+#     return render_template("home.html", expenses=expenses)
+
+# @expense_bp.route("/view_all", methods=["GET"])
+# @login_required
+# def view_all():
+#     expenses = Expense.query.filter_by(user_id=current_user.id).all()
+#     return render_template("home.html", expenses=expenses)
 
 @expense_bp.route("/create", methods=["GET", "POST"])
 @login_required

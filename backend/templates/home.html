@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style/index.css') }}">
 
 <h2>Expense Records</h2>
-<a href="{{ url_for('expense.create_expense') }}">Create New Expense Record</a>
-<table>
+<a class="button btn-primary" href="{{ url_for('expense.create_expense') }}">Create New Expense Record</a>
+<table class="block">
     <thead>
         <tr>
             <th>Date</th>
