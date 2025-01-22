@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, FloatField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 
 class LoginForm(FlaskForm):
     email = StringField(
@@ -44,3 +44,19 @@ class RegisterForm(FlaskForm):
         ]
     )
     submit = SubmitField('Register')
+
+
+class ExpenseForm(FlaskForm):
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    category = SelectField('Category', choices=[
+        ('Food', 'Food'),
+        ('Transport', 'Transport'),
+        ('Entertainment', 'Entertainment'),
+        ('Utilities', 'Utilities'),
+        ('Health', 'Health')
+    ], validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired(), Length(min=3, max=100)])
+    expense = FloatField('Expense ($)', validators=[DataRequired(), NumberRange(min=0)])
+
+    class Meta:
+        csrf = False

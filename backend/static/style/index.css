@@ -129,3 +129,14 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #586069;
 }
+
+
+/* Table styling */
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+th {
+    background-color: #96D4D4;
+    padding: 5px;
+}
