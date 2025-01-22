@@ -39,4 +39,13 @@
   {% endif %}
 {% endwith %}
 
+<script>
+  function alertFadeOut() {
+    setTimeout(() => {
+      document.querySelector('.flash-messages').style.display = 'none';
+    }, 100);
+  }
+  alertFadeOut();
+</script>
+
 {% endblock %}

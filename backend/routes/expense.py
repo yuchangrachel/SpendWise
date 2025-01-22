@@ -8,18 +8,6 @@ from extensions import db
 expense_bp = Blueprint('expense', __name__, url_prefix='/expense')
 
 
-# @expense_bp.route("/", methods=["GET"])
-# @login_required
-# def home():
-#     expenses = Expense.query.filter_by(user_id=current_user.id).all()
-#     return render_template("home.html", expenses=expenses)
-
-# @expense_bp.route("/view_all", methods=["GET"])
-# @login_required
-# def view_all():
-#     expenses = Expense.query.filter_by(user_id=current_user.id).all()
-#     return render_template("home.html", expenses=expenses)
-
 @expense_bp.route("/create", methods=["GET", "POST"])
 @login_required
 def create_expense():
