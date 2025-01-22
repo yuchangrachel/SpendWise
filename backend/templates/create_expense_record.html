@@ -31,4 +31,9 @@
     </div>
 </form>
 
+<script>
+    // set max date to today
+    document.querySelector('#date').setAttribute('max', new Date().toLocaleDateString('en-CA'));
+</script>
+
 {% endblock %}

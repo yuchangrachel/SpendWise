@@ -3,11 +3,12 @@ Track your expenses effectively with Smart-Tracker
 
 # Roadmap
 Implement UI for Authentication and Authorization.
-Develop backend APIs for the authentication service.
+Develop backend APIs for the session-based authentication service.
 Design and establish the database schema and connections.
-Build the Expense Form feature in the UI.
-Build the Expense List feature in the UI.
-Set up backend APIs for core functionality.
+Implement Cache, pagination technique to reduce conjestion and optimize data retrieval from the database.
+Build Expense Record Form to record expenses in the past(max: today, location is West US).
+Build the Paginated Expense Record Table(create, view).
+
 Implement RabbitMQ to publish and consume messages, including email notifications to users.
 Provide microservices for:
 Authentication Service
@@ -15,6 +16,12 @@ Expense Service
 Notification Service
 Report Service
 Insights Service (AI-powered)
+
+
+# TODO feature 
+1. User edit / delete existing expense record
+2. Customize category (add / edit / delete user's categories)
+3. Add filter functionality: current month, previous month, all as default
 
 
 # Backend Setup
