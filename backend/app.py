@@ -9,9 +9,14 @@ from routes.auth import auth_bp
 from routes.expense import expense_bp
 from models.users import User
 from models.expense import Expense 
+import plotly.express as px
+import pandas as pd
 
 
 app = Flask(__name__)
+
+
+PER_PAGE = 3
 
 
 # load config from config.py
@@ -45,8 +50,23 @@ def home():
     sort_by = request.args.get('sort_by', 'date')
     sort_order = request.args.get('sort_order', 'asc')
 
-    # fetch expense for currently logged-in user
+    # use built-in query all expense for currently logged-in user
     expenses = Expense.query.filter_by(user_id=current_user.id)
+
+    # convert all expense data to pandas DataFrame for chart
+    expenses_data = []
+    for expense in expenses:
+        expenses_data.append({
+            'Date': expense.date,
+            'Title': expense.title,
+            'Category': expense.category,
+            'Expense': expense.expense,
+        })
+    df = pd.DataFrame(expenses_data)
+    # create Bubble Chart with Plotly Express
+    fig = px.scatter(df, x='Category', y='Expense', size='Expense', color='Category', hover_name='Title', size_max=60)
+    # get the plotly figure in HTML format
+    graph_html = fig.to_html(full_html=False)
 
     # apply sorting dynamically
     if hasattr(Expense, sort_by): 
@@ -57,12 +77,15 @@ def home():
 
     # get page number(default 1) from query string
     page = request.args.get('page', 1, type=int)
-    # set number of expenses per page
-    per_page = 3 
     # fetch expenses for the currently logged-in user
-    expenses = expenses.paginate(page=page, per_page=per_page, error_out=False)
+    expenses = expenses.paginate(page=page, per_page=PER_PAGE, error_out=False)
 
-    return render_template("home.html", expenses=expenses, sort_by=sort_by, sort_order=sort_order)
+    return render_template(
+        "home.html", 
+        expenses=expenses, 
+        sort_by=sort_by, 
+        sort_order=sort_order, 
+        graph_html=graph_html)
 
 # handle unexpected routes
 @app.errorhandler(404)
@@ -74,4 +97,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
