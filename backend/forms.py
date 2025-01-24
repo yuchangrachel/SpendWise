@@ -1,3 +1,8 @@
+"""
+Flask-WTF: The UserForm handles the form rendering, validation, and submission
+Use for form.validate_on_submit()
+Frontend submits data as application/x-www-form-urlencoded
+"""
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
