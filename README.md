@@ -5,7 +5,8 @@ Track your expenses effectively with Smart-Tracker
 Implement UI for Authentication and Authorization.
 Develop backend APIs for the session-based authentication service.
 Design and establish the database schema and connections.
-Implement basic & OAuth2 authentication and authorization accessing to customer's dashboard
+Implement basic & JWT-cookie authentication and authorization accessing to customer's dashboard
+Fix JWT token is shared if loginout and login with another users shortly
 Implement Cache, pagination technique to reduce conjestion and optimize data retrieval from the database.
 Build Expense Record Form to record expenses in the past(max: today, location is West US).
 Build the Paginated Expense Record Table(create, view) with sorting function(with Boostrap).
@@ -21,11 +22,16 @@ Allow users upload bunch of expense record
 Insights Service (AI-powered)
 
 
+# Challenge 
+1. Missing Authorization in header 
+
+
 # TODO feature 
 1. User edit / delete existing expense record
 2. Customize category (add / edit / delete user's categories)
 3. Add filter functionality: current month, previous month, all as default
-4. Add JWT authentication instead of session-based for scalability
+4. Add third-party authentication via using oAuth2
+5. Enhance JWT implementation(Revoke multiple tokens for same users/limit concurrent logins)
 
 # Backend Setup
 ## Run the Application

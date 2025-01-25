@@ -13,10 +13,12 @@
 <a class="button btn-primary" href="{{ url_for('expense.create_expense') }}">Create New Expense Record</a>
 
 <!-- Bubble Chart Display -->
-<div class="block">
-    <h3>Bubble Chart of Expenses</h3>
-    <div>{{ graph_html | safe }}</div>
-</div>
+{% if graph_html %}
+    <div class="block">
+        <h3>Bubble Chart of Expenses</h3>
+        <div>{{ graph_html | safe }}</div>
+    </div>
+{% endif %}
 
 <div class="table-container">
     <table class="table">
@@ -54,13 +56,15 @@
 
 <!-- Pagination -->
 <div class="pagination">
-    {% for page in range(1, expenses.pages + 1) %}
-        {% if page == expenses.page %}
-            <span>{{ page }}</span>
-        {% else %}
-            <a href="{{ url_for('home', page=page) }}">{{ page }}</a>
-        {% endif %}
-    {% endfor %}
+    {% if expenses %}
+        {% for page in range(1, expenses.pages + 1) %}
+            {% if page == expenses.page %}
+                <span>{{ page }}</span>
+            {% else %}
+                <a href="{{ url_for('home', page=page) }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 </div>
 <script type="text/javascript" src="static/js/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

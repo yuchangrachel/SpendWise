@@ -17,6 +17,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.Text, nullable=False)
     is_active_user = db.Column(db.Boolean, default=True)
 
+    def __repr__(self):
+        return f'<User {self.email}>'
+
     @property
     def is_active(self):
         return self.is_active_user

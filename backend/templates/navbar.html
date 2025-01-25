@@ -13,7 +13,7 @@
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('auth.logout') }}" class="{{ 'active' if request.endpoint == 'auth.logout' else '' }}">Logout</a>
             {% else %}
-                <a href="{{ url_for('auth.login') }}" class="{{ 'active' if request.endpoint == 'auth.login' else '' }}">Login</a>
+                <a href="{{ url_for('auth.access_login') }}" class="{{ 'active' if request.endpoint == 'auth.login' else '' }}">Login</a>
                 <a href="{{ url_for('auth.register') }}" class="{{ 'active' if request.endpoint == 'auth.register' else '' }}">Register</a>
             {% endif %}
         </nav>

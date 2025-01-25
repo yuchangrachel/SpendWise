@@ -3,40 +3,68 @@
 {% block content %}
 <h1>Login</h1>
 
-<!-- Use Flask-WTF to render the form -->
-<form method="POST" action="{{ url_for('auth.login') }}">
-    {{ form.hidden_tag() }} <!-- For CSRF protection -->
+<form id="loginForm">
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required><br>
 
-    <div>
-        <label for="email">Email:</label>
-        {{ form.email(class="form-control") }}
-    </div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
 
-    <div>
-        <label for="password">Password:</label>
-        {{ form.password(class="form-control") }}
-    </div>
-
-    <div>
-        {{ form.submit(class="btn btn-primary-submit") }}
-    </div>
+    <button type="submit">Login</button>
 </form>
 
-<!-- Display flash messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      <ul>
-        {% for category, message in messages %}
-          <li class="alert {{ 'alert-' + category }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-{% endwith %}
+<div class="error" id="errorMessage" style="color: red;"></div>
 
-<script type="text/javascript" src="static/js/alert.js"></script>
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
 
+        document.getElementById("errorMessage").textContent = '';
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        console.log("Email: ", email)
+
+        fetch('/login', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('Invalid email or password');
+                }
+                throw new Error('An unexpected error occurred');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Login successful:", data);
+            localStorage.setItem('access_token', data.access_token);  // store the token
+
+            const token = localStorage.getItem('access_token');
+            console.log("Stored token: ", token);
+
+            document.getElementById("errorMessage").textContent = "Login successful! Redirecting...";
+            setTimeout(() => {
+                window.location.href = '/protected'; 
+            }, 1000); 
+        })
+        .catch(error => {
+            document.getElementById("errorMessage").textContent = error.message;
+        });
+    });
+</script>
+
+</body>
+</html>
 
 {% endblock %}
 
