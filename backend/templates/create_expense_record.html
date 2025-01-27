@@ -3,8 +3,7 @@
 {% block content %}
 <h1>Create New Expense Record</h1>
 
-<form method="POST" action="{{ url_for('expense.create_expense') }}"
-enctype="multipart/form-data" onsubmit="return validateImageSize()">
+<form id="expenseForm" method="POST" action="{{ url_for('expense.create_expense') }}" enctype="multipart/form-data" onsubmit="return handleFormSubmission(event)">
     {{ form.hidden_tag() }}
     
     <div>
@@ -41,35 +40,97 @@ enctype="multipart/form-data" onsubmit="return validateImageSize()">
     </div>
 </form>
 
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
 <script>
     // set max date to today
-    document.querySelector('#date').setAttribute('max', new Date().toLocaleDateString('en-CA'));
+    document.querySelector('#date').setAttribute('max', new Date().toISOString().split('T')[0]);
 
-    // handle image size
-    function validateImageSize() {
-        var fileInput = document.getElementById("receipt");
-        var file = fileInput.files[0];
-        var errorMessage = document.getElementById("error-message");
+    // async handle form submission
+    async function handleFormSubmission(event) {
+        event.preventDefault();
 
-        if (file) {
-            // define size limit (6MB in bytes)
-            var sizeLimit = 6 * 1024 * 1024;
+        const receiptFile = document.getElementById("receipt").files[0];
+        const errorMessage = document.getElementById("errorMessage");
 
-            if (file.size > sizeLimit) {
-                document.getElementById("errorMessage").textContent(`Please upload a file smaller than ${sizeLimit / (1024 * 1024)} MB`);
-                errorMessage.classList.remove("alert-success");
-                errorMessage.classList.add("alert-fail");
-                return false;  //prevent submitting form
+        try {
+            if (receiptFile) {
+                const validationError = validateFileSize(receiptFile);
+                if (validationError) {
+                    showError(validationError);
+                    return;
+                }
+                // conpress image before sending to backend
+                const compressedFile = await compressImage(receiptFile);
+                // done conpress, now sending to backend
+                await submitFormData(compressedFile);
             } else {
-                document.getElementById("errorMessage").textContent("Upload receipt successfully")
-                errorMessage.classList.remove("alert-fail");
-                errorMessage.classList.add("alert-success");
-                return true;  //allow submitting form
+                await submitFormData(); // Submit without receipt
             }
+            showSuccess("Expense record created successfully!");
+        } catch (error) {
+            console.error("Submission error:", error);
+            showError("Error submitting the form. Please try again.");
+        }
+    }
+
+    // pre-conpress: validate file size
+    function validateFileSize(file) {
+        const sizeLimit = 6 * 1024 * 1024; // 6MB
+        if (file.size > sizeLimit) {
+            return `Please upload a file smaller than ${sizeLimit / (1024 * 1024)} MB`;
+        }
+        return null;
+    }
+
+    // compress image using browser-image-compression
+    async function compressImage(file) {
+        const options = {
+            maxSizeMB: 0.3, // Very small file size target
+            maxWidthOrHeight: 500, // Further reduce dimensions
+            initialQuality: 0.5, // Lower initial quality
+        };
+        try {
+            const compressedFile = await imageCompression(file, options);
+            return compressedFile;
+        } catch (error) {
+            showError(`Image compression failed: ${error}`)
+            throw new Error("Image compression failed.");
+        }
+    }
+
+    // submit compressed form data to backend
+    async function submitFormData(compressedFile = null) {
+        const formData = new FormData(document.getElementById("expenseForm"));
+        if (compressedFile) {
+            formData.set('receipt', compressedFile, compressedFile.name);
         }
 
-        return true;  // If no file is selected, allow form submission
+        const response = await fetch("{{ url_for('expense.create_expense') }}", {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.error || "Unexpected error");
+        }
+    }
+
+    // show error message
+    function showError(message) {
+        const errorMessage = document.getElementById("errorMessage");
+        errorMessage.textContent = message;
+        errorMessage.classList.remove("alert-success");
+        errorMessage.classList.add("alert-fail");
+    }
+
+    // show success message and redirect
+    function showSuccess(message) {
+        const errorMessage = document.getElementById("errorMessage");
+        errorMessage.textContent = message;
+        errorMessage.classList.remove("alert-fail");
+        errorMessage.classList.add("alert-success");
+        setTimeout(() => window.location.href = "{{ url_for('home') }}", 1000);
     }
 </script>
-
 {% endblock %}

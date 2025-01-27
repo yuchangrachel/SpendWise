@@ -1,7 +1,7 @@
 import os
 import random
 import string
-from flask import render_template, redirect, url_for, flash, Blueprint, request
+from flask import render_template, redirect, url_for, flash, Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from models.expense import Expense
@@ -60,7 +60,7 @@ def create_expense():
         db.session.commit()
         
         flash("Expense record created successfully!", "success")
-        return redirect(url_for("home"))
+        return jsonify({'success': True, 'message': 'Expense record created successfully!'})
 
     return render_template("create_expense_record.html", form=form)
 
@@ -73,7 +73,8 @@ def view_receipt(expense_id):
     if not expense or not expense.receipt_path:
         flash("Receipt not found or access denied!", "danger")
         return redirect(url_for("home"))
-
+    
+    # store db is relative path start with static/, urls for must have static/ as prefix, remove dup
     if expense.receipt_path.startswith("static/"):
         receipt_relative_path = expense.receipt_path[len("static/"):]
     else:

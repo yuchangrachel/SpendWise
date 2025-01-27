@@ -1,30 +1,24 @@
-# smart-tracker
+# Personal SpendWise App
 Track your expenses effectively with Smart-Tracker
 
 # Roadmap
 Implement UI for Authentication and Authorization.
 Develop backend APIs for the session-based authentication service.
 Design and establish the database schema and connections.
-Implement basic & JWT-cookie authentication and authorization accessing to customer's dashboard
+Implement basic & JWT-cookie authentication and authorization accessing to customer's dashboard.
 Fix JWT token is shared if loginout and login with another users shortly
 Implement Cache, pagination technique to reduce conjestion and optimize data retrieval from the database.
 Build Expense Record Form to record expenses in the past(max: today, location is West US).
+User can upload receipt(file), view in Expense table.
 Build the Paginated Expense Record Table(create, view) with sorting function(with Boostrap).
-Integrate with Plotly Dash and optimize asynchronous Chart Loading
+Integrate with Plotly Dash and optimize asynchronous Chart Loading.
 
 Implement RabbitMQ to publish and consume messages, including email notifications to users.
-Provide microservices for:
-Authentication Service
-Expense Service
-Notification Service
-Report Service
-Allow users upload bunch of expense record
 Insights Service (AI-powered)
 
 
 # Challenge 
-1. Missing Authorization in header 
-2. Determine category of item from receipt
+1. Missing Authorization in header -> Set restriction for http-only cookie
 
 
 # TODO feature 
@@ -36,6 +30,7 @@ Insights Service (AI-powered)
 1. Edit / delete expense entries
 2. Customize category (add / edit / delete user's categories)
 3. Add filter functionality: current month, previous month, all as default
+4. OCR receipt parsing and make classification
 
 
 
