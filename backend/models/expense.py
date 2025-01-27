@@ -10,7 +10,7 @@ class Expense(db.Model):
         category (str): Expense category.
         title (str): A brief title or description of the expense.
         expense (float): The amount spent.
-        user_id (int): Foreign key referencing the users table.
+        receipt_path(str): relative path of image
     """
     __tablename__ = "expenses"
 
@@ -20,8 +20,13 @@ class Expense(db.Model):
     title = db.Column(db.String(100), nullable=False)
     expense = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receipt_path = db.Column(db.String(200), nullable=True)
 
     user = db.relationship('User', backref='expenses', lazy=True)
 
     def __repr__(self):
         return f"<Expense {self.title} - ${self.expense}>"
+    
+    @classmethod
+    def get_expense(cls, expense_id, user_id):
+        return cls.query.filter_by(id=expense_id, user_id=user_id).first()

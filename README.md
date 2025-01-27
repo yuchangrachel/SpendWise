@@ -24,14 +24,21 @@ Insights Service (AI-powered)
 
 # Challenge 
 1. Missing Authorization in header 
+2. Determine category of item from receipt
 
 
 # TODO feature 
-1. User edit / delete existing expense record
+## User access
+1. Oauth third-party grant authorization, eg.Google Email
+2. Enhance JWT implementation(Revoke multiple tokens for same users/limit concurrent logins)
+
+## Expense record table
+1. Edit / delete expense entries
 2. Customize category (add / edit / delete user's categories)
 3. Add filter functionality: current month, previous month, all as default
-4. Add third-party authentication via using oAuth2
-5. Enhance JWT implementation(Revoke multiple tokens for same users/limit concurrent logins)
+
+
+
 
 # Backend Setup
 ## Run the Application
@@ -42,7 +49,6 @@ flask run
 
 ## Update Database in development stage
 #### To upgrade the existing database 
-(e.g., adding a new column to a table without losing existing data), follow these steps:
 ```
 flask db init         # Initializes the migrations folder (if not already done)
 flask db migrate -m "Initial migration"  # Creates a new migration script, check migrations/

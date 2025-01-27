@@ -35,6 +35,7 @@
                 <th>Title</th>
                 <th>Category</th>
                 <th>Expense ($)</th>
+                <th>Receipt</th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +45,32 @@
                     <td>{{ expense.title }}</td>
                     <td>{{ expense.category }}</td>
                     <td>{{ expense.expense }}</td>
+                    <td>
+                        {% if expense.receipt_path %}
+                            <a href="#" class="view-receipt" data-expense-id="{{ expense.id }}">
+                                <i class="bi bi-receipt"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Receipt</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Placeholder for the receipt image -->
+                                    <img id="modalReceiptImage" class="img-fluid" alt="Receipt" src="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        
                 </tr>
             {% else %}
                 <tr>
@@ -67,6 +94,8 @@
     {% endif %}
 </div>
 <script type="text/javascript" src="static/js/index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
 </body>
 {% endblock %}

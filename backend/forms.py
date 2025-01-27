@@ -4,7 +4,8 @@ Use for form.validate_on_submit()
 Frontend submits data as application/x-www-form-urlencoded
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, FloatField
+from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, FloatField, FileField
+from flask_wtf.file import FileAllowed
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 
 class LoginForm(FlaskForm):
@@ -62,5 +63,6 @@ class ExpenseForm(FlaskForm):
     ], validators=[DataRequired()])
     title = StringField('Title', validators=[DataRequired(), Length(min=3, max=100)])
     expense = FloatField('Expense ($)', validators=[DataRequired(), NumberRange(min=0)])
+    receipt = FileField('Upload Receipt', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only image is allowed!')])
 
     submit = SubmitField('Create Expense Record')

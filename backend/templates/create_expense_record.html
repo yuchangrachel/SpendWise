@@ -3,7 +3,8 @@
 {% block content %}
 <h1>Create New Expense Record</h1>
 
-<form method="POST" action="{{ url_for('expense.create_expense') }}">
+<form method="POST" action="{{ url_for('expense.create_expense') }}"
+enctype="multipart/form-data" onsubmit="return validateImageSize()">
     {{ form.hidden_tag() }}
     
     <div>
@@ -25,6 +26,15 @@
         <label for="expense">Expense ($)</label>
         {{ form.expense() }}
     </div>
+    
+    <div>
+        <label for="receipt">Upload Receipt (Optional):</label>
+        <input type="file" id="receipt" name="receipt" accept="image/*"><br>
+    </div>
+
+    <div class="flash-messages">
+        <div class="alert" id="errorMessage"></div>
+    </div>
 
     <div>
         {{ form.submit(class="btn btn-primary-submit") }}
@@ -34,6 +44,32 @@
 <script>
     // set max date to today
     document.querySelector('#date').setAttribute('max', new Date().toLocaleDateString('en-CA'));
+
+    // handle image size
+    function validateImageSize() {
+        var fileInput = document.getElementById("receipt");
+        var file = fileInput.files[0];
+        var errorMessage = document.getElementById("error-message");
+
+        if (file) {
+            // define size limit (6MB in bytes)
+            var sizeLimit = 6 * 1024 * 1024;
+
+            if (file.size > sizeLimit) {
+                document.getElementById("errorMessage").textContent(`Please upload a file smaller than ${sizeLimit / (1024 * 1024)} MB`);
+                errorMessage.classList.remove("alert-success");
+                errorMessage.classList.add("alert-fail");
+                return false;  //prevent submitting form
+            } else {
+                document.getElementById("errorMessage").textContent("Upload receipt successfully")
+                errorMessage.classList.remove("alert-fail");
+                errorMessage.classList.add("alert-success");
+                return true;  //allow submitting form
+            }
+        }
+
+        return true;  // If no file is selected, allow form submission
+    }
 </script>
 
 {% endblock %}

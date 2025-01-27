@@ -9,11 +9,15 @@
 
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required><br>
-
-    <button type="submit">Login</button>
+    <div>
+        <input id="submit" name="submit" class="btn btn-primary-submit" type="submit" value="Login">
+    </div>
 </form>
 
-<div class="error" id="errorMessage" style="color: red;"></div>
+<div class="flash-messages">
+    <div class="alert" id="errorMessage"></div>
+</div>
+
 
 <script>
     document.getElementById("loginForm").addEventListener("submit", function(event) {
@@ -53,12 +57,17 @@
             console.log("Stored token: ", token);
 
             document.getElementById("errorMessage").textContent = "Login successful! Redirecting...";
+            errorMessage.classList.remove("alert-fail");
+            errorMessage.classList.add("alert-success");
+
             setTimeout(() => {
                 window.location.href = '/protected'; 
             }, 1000); 
         })
         .catch(error => {
             document.getElementById("errorMessage").textContent = error.message;
+            errorMessage.classList.remove("alert-success");
+            errorMessage.classList.add("alert-fail");
         });
     });
 </script>

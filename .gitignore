@@ -5,3 +5,4 @@ migrations/
 package*
 config.py
 dump*
+*/static/uploads
