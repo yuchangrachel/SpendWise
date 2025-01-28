@@ -6,6 +6,10 @@ from models.users import User
 from forms import RegisterForm
 from flask_jwt_extended import create_access_token, set_access_cookies, jwt_required, unset_jwt_cookies
 
+# RabbitMQ configuration
+EXCHANGE = 'activity_logs_exchange'
+ROUTING_KEY = 'register'
+
 
 auth_bp = Blueprint("auth", __name__)
 

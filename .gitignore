@@ -4,5 +4,5 @@ __pycache__
 migrations/
 package*
 config.py
-dump*
 */static/uploads
+*dump*
