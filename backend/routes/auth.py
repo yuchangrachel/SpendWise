@@ -5,9 +5,12 @@ from extensions import db
 from models.users import User
 from forms import RegisterForm
 from flask_jwt_extended import create_access_token, set_access_cookies, jwt_required, unset_jwt_cookies
+from mq_producer.user_producer import send_to_rabbitmq
+
 
 # RabbitMQ configuration
 EXCHANGE = 'activity_logs_exchange'
+QUEUE_NAME = 'user_register_queue'
 ROUTING_KEY = 'register'
 
 
@@ -30,7 +33,11 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             flash("Registration successful! Please log in.", "success")
-            return redirect(url_for("auth.login"))
+
+            # Server send message to rabbitmq
+            msg = f"New user registered: {email}"
+            send_to_rabbitmq(exchange=EXCHANGE, queue_name=QUEUE_NAME, message=msg, routing_key=ROUTING_KEY)
+            return redirect(url_for("auth.access_login"))
     else:
         for field, errors in form.errors.items():
             for error in errors:

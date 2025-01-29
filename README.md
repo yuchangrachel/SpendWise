@@ -1,6 +1,9 @@
 # Personal SpendWise App
 Track your expenses effectively with Smart-Tracker
 ![image info](design-v1.png)
+![image info](login-v1.png)
+![image info](expense-v1.png)
+![imae info](mq-v1.png)
 # Roadmap
 1. Implement UI for Authentication and Authorization
 2. Develop backend APIs for the session-based authentication service
@@ -12,7 +15,7 @@ Track your expenses effectively with Smart-Tracker
 8. User can upload receipt(file), view in Expense table.
 9. Build the Paginated Expense Record Table(create, view) with sorting function(with Boostrap).
 10. Integrate with Plotly Dash and optimize asynchronous Chart Loading.
-11. Implement RabbitMQ to publish and consume messages
+11. Integrate RabbitMQ to monitor user activity
 
 
 # TODO feature 
@@ -21,8 +24,11 @@ Track your expenses effectively with Smart-Tracker
 3. Edit / delete expense entries
 4. Customize category (add / edit / delete user's categories)
 5. Add filter functionality: current month, previous month, all as default
-6. OCR receipt parsing and make classification
-7. Fetch finance news
+6. OCR receipt parsing and make classification(X)
+7. Send welcome email to new user
+8. Create user profile: subscribe finance news
+9. Use rabbitMQ to monitor email sent to users who subscribe finance news
+10. Store data of user activity to DB
 
 
 # Backend Setup
@@ -54,6 +60,10 @@ psql -h <host: localhost> -U <username:postgres> -d <database:auth> -f update_us
 In mac
 ```
 brew services start rabbitmq
+```
+Run consumer
+```
+mq_consumer % python3 user_consumer.py
 ```
 Check RabbitMQ GUI
 ```
